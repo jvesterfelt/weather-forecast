@@ -1,19 +1,44 @@
 // Variables
+var apiKey = "xaoXvbJ5pvlszBP5BJ6wPn38g8AcLwr0";
 var savedCities = [];
 
 // Declared Functions
-var getForecast = function() {};
+var getForecast = function(key) {
+    console.log("key", key);
+    var apiUrl = "http://dataservice.accuweather.com/forecasts/v1/daily/5day/" + key + "?apikey=" + apiKey;
+    console.log("apiUrl getForecast", apiUrl);
+
+    fetch(apiUrl).then(function(response) {
+        if (response.ok) {
+            console.log("getForecast response ok");
+            response.json().then(function(forecast) {
+                console.log("Forecast details", forecast);
+                var dayPhrase = [];
+                var dayIcon = [];
+                var dayDate = [];
+                var dayHigh = [];
+                var dayLow = [];
+                for (var i = 0; i < 5; i++) {
+                    dayPhrase.push(forecast.DailyForecasts[i].Day.IconPhrase);
+                    dayIcon.push(forecast.DailyForecasts[i].Day.Icon);
+                    dayDate.push(forecast.DailyForecasts[i].Date);
+                    dayHigh.push(forecast.DailyForecasts[i].Temperature.Maximum.Value);
+                    dayLow.push(forecast.DailyForecasts[i].Temperature.Minimum.Value);
+                }
+            })
+        }
+    });
+};
 
 var getLocationDetails = function(query) {
-    console.log("Starting getLocationDetails");
-    console.log("query", query);
-    var apiKey = "xaoXvbJ5pvlszBP5BJ6wPn38g8AcLwr0";
     var apiUrl = "http://dataservice.accuweather.com/locations/v1/cities/search?apikey=" + apiKey + "&q=" + query + "details=true&offset=10";
 
     fetch(apiUrl).then(function(response) {
         if (response.ok) {
-            response.json().then(function(forecast) {
-                console.log(forecast);
+            response.json().then(function(location) {
+                var key = location[0].Key;
+                console.log("location key", key);
+                getForecast(key);
             });
         } else {
             alert("API call failed.");
@@ -22,22 +47,23 @@ var getLocationDetails = function(query) {
 };
 
 var saveSearch = function(query) {
-    savedCities.push(query)
-
-    if (savedCities.length > 5) {
-        savedCities.pop();
+    if (!savedCities.includes(query)) {
+        savedCities.push(query)
+    } else {
+        return;
     }
 
-    console.log("saving city to localStorage.")
+    if (savedCities.length > 5) {
+        savedCities.shift();
+    }
+
     localStorage.setItem("savedCities", JSON.stringify(savedCities));
 };
 
 var loadCities = function() {
-    console.log("starting loadCities");
     savedCities = JSON.parse(localStorage.getItem("savedCities"));
 
     if (savedCities) {
-        console.log("getting details for last city searched.");
         var index = savedCities.length - 1;
         getLocationDetails(savedCities[index]);
     } else {
@@ -47,8 +73,6 @@ var loadCities = function() {
 
 
 var getWeather = function() {
-    console.log("executing getWeather");
-
     loadCities();
 
     var submitBtn = document.querySelector("#search-btn");
@@ -56,7 +80,7 @@ var getWeather = function() {
         event.preventDefault();
         var query = document.getElementById("search-text").value;
         saveSearch(query);
-
+        query.value = "";
     });
 };
 
