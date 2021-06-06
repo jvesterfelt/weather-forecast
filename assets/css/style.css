@@ -1,0 +1,26 @@
+* {}
+
+#navbar {
+    margin: 0;
+}
+
+.header-title {
+    font-weight: bolder;
+    color: darkblue;
+}
+
+.main-content {
+    margin: 0 20px;
+}
+
+.form-inline {
+    display: flex;
+    flex-wrap: wrap;
+    padding-right: 15px;
+}
+
+#weather-map {
+    display: flex;
+    float: center;
+    padding: 25px;
+}
