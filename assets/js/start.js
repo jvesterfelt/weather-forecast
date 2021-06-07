@@ -5,7 +5,7 @@ var tempSavedCities = [];
 
 // Declared Functions
 var getForecast = function(key, cityName) {
-    var apiUrl = "http://dataservice.accuweather.com/forecasts/v1/daily/5day/" + key + "?apikey=" + apiKey;
+    var apiUrl = "https://dataservice.accuweather.com/forecasts/v1/daily/5day/" + key + "?apikey=" + apiKey;
 
     fetch(apiUrl).then(function(response) {
         if (response.ok) {
@@ -33,7 +33,7 @@ var getForecast = function(key, cityName) {
 };
 
 var getCurrentConditions = function(key) {
-    var apiUrl = "http://dataservice.accuweather.com/currentconditions/v1/" + key + "?apikey=" + apiKey + "&details=true";
+    var apiUrl = "https://dataservice.accuweather.com/currentconditions/v1/" + key + "?apikey=" + apiKey + "&details=true";
 
     fetch(apiUrl).then(function(response) {
         if (response.ok) {
@@ -84,7 +84,7 @@ var getCurrentConditions = function(key) {
 };
 
 var getLocationDetails = function(query) {
-    var apiUrl = "http://dataservice.accuweather.com/locations/v1/cities/search?apikey=" + apiKey + "&q=" + query + "details=true&offset=10";
+    var apiUrl = "https://dataservice.accuweather.com/locations/v1/cities/search?apikey=" + apiKey + "&q=" + query + "details=true&offset=10";
 
     fetch(apiUrl).then(function(response) {
         if (response.ok) {
