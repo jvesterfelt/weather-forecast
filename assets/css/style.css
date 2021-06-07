@@ -26,13 +26,19 @@
 }
 
 #indeces {
+    display: flex;
+    justify-content: space-between;
     padding-top: 10px;
+}
+
+#temperature {
+    height: 300px;
+    width: 300px;
 }
 
 #windspeed,
 #humidity,
-#uv-card {
-    height: 200px;
-    width: 300px;
-    padding: 20px;
+#uv-index {
+    height: 125px;
+    width: 217px;
 }

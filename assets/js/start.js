@@ -38,12 +38,22 @@ var getCurrentConditions = function(key) {
     fetch(apiUrl).then(function(response) {
         if (response.ok) {
             response.json().then(function(conditions) {
+                var temperatureFarenheit = conditions[0].Temperature.Imperial.Value;
+                var temperatureCelsius = conditions[0].Temperature.Metric.Value;
+                var currentIcon = conditions[0].WeatherIcon;
                 var windSpeed = conditions[0].Wind.Speed.Imperial.Value;
                 var windDirectionDegrees = conditions[0].Wind.Direction.Degrees;
                 var windDirection = conditions[0].Wind.Direction.English;
                 var uvIndex = conditions[0].UVIndex;
                 var uvIndexRating = conditions[0].UVIndexText;
                 var humidity = conditions[0].RelativeHumidity;
+
+                var tempIcon = document.getElementById("temp-img");
+                tempIcon.setAttribute("src", "./assets/images/" + currentIcon + ".png");
+                var tempHeader = document.getElementById("farenheit");
+                tempHeader.textContent = temperatureFarenheit + "F";
+                var tempSubtext = document.getElementById("celsius");
+                tempSubtext.textContent = temperatureCelsius + "C";
 
                 var windHeader = document.getElementById("windspeed-header");
                 windHeader.textContent = windSpeed + " mp/h";
@@ -57,7 +67,7 @@ var getCurrentConditions = function(key) {
                 uvIndexHeader.textContent = uvIndex;
                 var uvIndexText = document.getElementById("uvindex-text");
                 uvIndexText.textContent = uvIndexRating;
-                var uvCard = document.getElementById("uv-card");
+                var uvCard = document.getElementById("uv-index");
 
                 switch (uvIndexRating) {
                     case "Low":
@@ -75,6 +85,13 @@ var getCurrentConditions = function(key) {
                     case "Very High":
                         uvCard.setAttribute("style", "background-color: #fa1d0c;");
                         break;
+
+                    case "Extreme":
+                        uvCard.setAttribute("style", "background-color: darkred;");
+                        break;
+
+                    default:
+                        uvCard.setAttribute("style", "background-color: whitesmoke;");
                 };
 
 
@@ -94,7 +111,10 @@ var getLocationDetails = function(query) {
                     var cityName = location[0].LocalizedName;
 
                     var cityHeader = document.getElementById("city-header");
-                    cityHeader.textContent = cityName;
+                    cityHeader.textContent = cityName + " 5-Day Forecast";
+
+                    var currentConditions = document.getElementById("current-city");
+                    currentConditions.textContent = cityName + " - Current Conditions";
 
                     getForecast(key, cityName);
                     getCurrentConditions(key);
@@ -109,7 +129,9 @@ var getLocationDetails = function(query) {
 };
 
 var saveSearch = function(query) {
-    savedCities = tempSavedCities;
+    if (tempSavedCities) {
+        savedCities = tempSavedCities;
+    }
 
     if (savedCities.includes(query)) {} else {
         savedCities.push(query);
@@ -264,6 +286,7 @@ var getWeather = function() {
         event.preventDefault();
 
         var query = document.getElementById("search-text").value;
+        console.log("retrieved query", query);
 
         saveSearch(query);
 
