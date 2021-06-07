@@ -1,9 +1,9 @@
 // Variables
-var apiKey = "xaoXvbJ5pvlszBP5BJ6wPn38g8AcLwr0";
+var apiKey = "31UtlrRos98rGyvqj7WHtq6hfoeMh50h";
 var savedCities = [];
 
 // Declared Functions
-var getForecast = function(key) {
+var getForecast = function(key, cityName) {
     var apiUrl = "http://dataservice.accuweather.com/forecasts/v1/daily/5day/" + key + "?apikey=" + apiKey;
 
     fetch(apiUrl).then(function(response) {
@@ -32,14 +32,80 @@ var getForecast = function(key) {
     });
 };
 
+var getCurrentConditions = function(key) {
+    var apiUrl = "http://dataservice.accuweather.com/currentconditions/v1/" + key + "?apikey=" + apiKey + "&details=true";
+
+    console.log("apiUrl", apiUrl);
+
+    fetch(apiUrl).then(function(response) {
+        if (response.ok) {
+            response.json().then(function(conditions) {
+                console.log("conditions", conditions);
+                var windSpeed = conditions[0].Wind.Speed.Imperial.Value;
+                var windDirectionDegrees = conditions[0].Wind.Direction.Degrees;
+                var windDirection = conditions[0].Wind.Direction.English;
+                var uvIndex = conditions[0].UVIndex;
+                var uvIndexRating = conditions[0].UVIndexText;
+                var humidity = conditions[0].RelativeHumidity;
+
+                var windHeader = document.getElementById("windspeed-header");
+                windHeader.textContent = windSpeed + " mp/h";
+                var windDirectionText = document.getElementById("wind-direction");
+                windDirectionText.textContent = windDirectionDegrees + " degrees " + windDirection;
+
+                var humidityHeader = document.getElementById("humidity-header");
+                humidityHeader.textContent = humidity + "%";
+
+                var uvIndexHeader = document.getElementById("uvindex-header");
+                uvIndexHeader.textContent = uvIndex;
+                var uvIndexText = document.getElementById("uvindex-text");
+                uvIndexText.textContent = uvIndexRating;
+                var uvCard = document.getElementById("uv-card");
+
+                switch (uvIndexRating) {
+                    case "Low":
+                        uvCard.setAttribute("style", "background-color: lightseagreen;");
+                        console.log("low uvindex");
+                        break;
+
+                    case "Moderate":
+                        uvCard.setAttribute("style", "background-color: lightyellow;");
+                        console.log("moderate uvindex");
+                        break;
+
+                    case "High":
+                        uvCard.setAttribute("style", "background-color: #ed8e87;");
+                        console.log("high uvindex");
+                        break;
+
+                    case "Very High":
+                        uvCard.setAttribute("style", "background-color: #fa1d0c;");
+                        console.log("very high uvindex");
+                        break;
+                };
+
+
+            })
+        }
+    });
+};
+
 var getLocationDetails = function(query) {
     var apiUrl = "http://dataservice.accuweather.com/locations/v1/cities/search?apikey=" + apiKey + "&q=" + query + "details=true&offset=10";
 
     fetch(apiUrl).then(function(response) {
         if (response.ok) {
             response.json().then(function(location) {
+                console.log("location", location);
                 var key = location[0].Key;
-                getForecast(key);
+                var cityName = location[0].LocalizedName;
+
+                var cityHeader = document.getElementById("city-header");
+                cityHeader.textContent = cityName;
+
+                console.log("Location key:", key, cityName);
+                getForecast(key, cityName);
+                getCurrentConditions(key);
             });
         } else {
             alert("API call failed.");

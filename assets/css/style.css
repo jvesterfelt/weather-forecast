@@ -1,4 +1,6 @@
-* {}
+* {
+    text-align: center;
+}
 
 #navbar {
     margin: 0;
@@ -13,6 +15,10 @@
     margin: 0 20px;
 }
 
+#city-header {
+    text-align: center;
+}
+
 .form-inline {
     display: flex;
     flex-wrap: wrap;
@@ -23,8 +29,9 @@
     padding-top: 10px;
 }
 
-#weather-map {
-    display: flex;
-    float: center;
-    padding: 25px;
+#windspeed,
+#humidity,
+#uv-card {
+    height: 200px;
+    width: 300px;
 }
