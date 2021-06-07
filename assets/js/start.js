@@ -156,66 +156,76 @@ var loadCities = function() {
     var city4 = document.getElementById("city-3");
     var city5 = document.getElementById("city-4");
 
-    city1.addEventListener("click", function(event) {
-        event.preventDefault();
-        getLocationDetails(city1.textContent);
+    if (city1) {
+        city1.addEventListener("click", function(event) {
+            event.preventDefault();
+            getLocationDetails(city1.textContent);
 
-        for (var i = 0; i < 5; i++) {
-            var iconImage = document.getElementById("img-" + [i]);
-            iconImage.setAttribute("src", "");
+            for (var i = 0; i < 5; i++) {
+                var iconImage = document.getElementById("img-" + [i]);
+                iconImage.setAttribute("src", "");
 
-            var cardDay = document.getElementById("day-" + [i]);
-            cardDay.innerHTML = "";
-        }
-    });
-    city2.addEventListener("click", function(event) {
-        event.preventDefault();
-        getLocationDetails(city2.textContent);
+                var cardDay = document.getElementById("day-" + [i]);
+                cardDay.innerHTML = "";
+            }
+        });
+    }
+    if (city2) {
+        city2.addEventListener("click", function(event) {
+            event.preventDefault();
+            getLocationDetails(city2.textContent);
 
-        for (var i = 0; i < 5; i++) {
-            var iconImage = document.getElementById("img-" + [i]);
-            iconImage.setAttribute("src", "");
+            for (var i = 0; i < 5; i++) {
+                var iconImage = document.getElementById("img-" + [i]);
+                iconImage.setAttribute("src", "");
 
-            var cardDay = document.getElementById("day-" + [i]);
-            cardDay.innerHTML = "";
-        }
-    });
-    city3.addEventListener("click", function(event) {
-        event.preventDefault();
-        getLocationDetails(city3.textContent);
+                var cardDay = document.getElementById("day-" + [i]);
+                cardDay.innerHTML = "";
+            }
+        });
+    }
+    if (city3) {
+        city3.addEventListener("click", function(event) {
+            event.preventDefault();
+            getLocationDetails(city3.textContent);
 
-        for (var i = 0; i < 5; i++) {
-            var iconImage = document.getElementById("img-" + [i]);
-            iconImage.setAttribute("src", "");
+            for (var i = 0; i < 5; i++) {
+                var iconImage = document.getElementById("img-" + [i]);
+                iconImage.setAttribute("src", "");
 
-            var cardDay = document.getElementById("day-" + [i]);
-            cardDay.innerHTML = "";
-        }
-    });
-    city4.addEventListener("click", function(event) {
-        event.preventDefault();
-        getLocationDetails(city4.textContent);
+                var cardDay = document.getElementById("day-" + [i]);
+                cardDay.innerHTML = "";
+            }
+        });
+    }
+    if (city4) {
+        city4.addEventListener("click", function(event) {
+            event.preventDefault();
+            getLocationDetails(city4.textContent);
 
-        for (var i = 0; i < 5; i++) {
-            var iconImage = document.getElementById("img-" + [i]);
-            iconImage.setAttribute("src", "");
+            for (var i = 0; i < 5; i++) {
+                var iconImage = document.getElementById("img-" + [i]);
+                iconImage.setAttribute("src", "");
 
-            var cardDay = document.getElementById("day-" + [i]);
-            cardDay.innerHTML = "";
-        }
-    });
-    city5.addEventListener("click", function(event) {
-        event.preventDefault();
-        getLocationDetails(city5.textContent);
+                var cardDay = document.getElementById("day-" + [i]);
+                cardDay.innerHTML = "";
+            }
+        });
+    }
+    if (city5) {
+        city5.addEventListener("click", function(event) {
+            event.preventDefault();
+            getLocationDetails(city5.textContent);
 
-        for (var i = 0; i < 5; i++) {
-            var iconImage = document.getElementById("img-" + [i]);
-            iconImage.setAttribute("src", "");
+            for (var i = 0; i < 5; i++) {
+                var iconImage = document.getElementById("img-" + [i]);
+                iconImage.setAttribute("src", "");
 
-            var cardDay = document.getElementById("day-" + [i]);
-            cardDay.innerHTML = "";
-        }
-    });
+                var cardDay = document.getElementById("day-" + [i]);
+                cardDay.innerHTML = "";
+            }
+        });
+    }
 };
 
 var loadForecast = function(dayPhrase, dayIcon, dayDate, dayHigh, dayLow) {
